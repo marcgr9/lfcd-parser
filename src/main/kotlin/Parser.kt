@@ -7,7 +7,6 @@ class Parser(
     var followTable: HashMap<String, MutableSet<String>> = hashMapOf(),
 ) {
 
-    //    Value epsilon = new Value("$", true);
     var epsilon = "$"
 
     fun concatenateLengthOne(list: List<Set<String>?>): Set<String> {
@@ -141,10 +140,8 @@ class Parser(
                         value = production.right[index]
                     }
                     if (value == valueToMatch) {
-                        //epsilon
                         current[nonTerminal]!!.add(epsilon)
                     } else if (value.isTerminal) {
-                        //terminal
                         current[nonTerminal]!!.add(value.value)
                     } else {
                         current[nonTerminal]!!.addAll(previous[production.left.value]!!)

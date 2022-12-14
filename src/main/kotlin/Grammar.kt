@@ -40,7 +40,6 @@ class Grammar(
         if (splitLine[0].filter { it in listOf('[', ']') }.length > 2) throw Exception("Not CFG")
 
         val left = Value(splitLine[0].replace("]", "").replace("[", ""), true)
-
         val right = mutableListOf<Value>()
 
         val rightPart = splitLine[1]
