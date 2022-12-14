@@ -5,7 +5,6 @@ fun main() {
     val parser = Parser(grammar)
 
     val scanner = Scanner(System.`in`)
-    val scanner2 = Scanner(System.`in`)
 
     println(menu())
     while (true) {
@@ -16,15 +15,15 @@ fun main() {
             3 -> println(grammar.productions)
             4 -> {
                 print("Nonterminal: ")
-                println(grammar.getProductionsForNonterminal(scanner.next()))
+                grammar.getProductionsForNonterminal(scanner.next()).forEach(::println)
             }
             5 -> {
                 parser.computeFirst()
-                println(parser.firstTable)
+                parser.firstTable.forEach(::println)
             }
             6 -> {
                 parser.computeFollow()
-                println(parser.followTable)
+                parser.followTable.forEach(::println)
             }
         }
     }

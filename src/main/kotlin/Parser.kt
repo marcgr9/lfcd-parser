@@ -1,5 +1,6 @@
 import model.Value
 
+
 class Parser(
     private val grammarReader: Grammar,
     var firstTable: HashMap<String, MutableSet<String>> = hashMapOf(),
@@ -31,20 +32,32 @@ class Parser(
     }
 
     fun areStatesEqual(state1: HashMap<String, Set<String>>, state2: HashMap<String, Set<String>>): Boolean {
-        listOf(state1, state2).forEach {
-            for (key in it.keys) {
-                if (!state2.containsKey(key)) {
-                    return false
-                }
-                for (value in state1[key]!!) {
-                    if (!state2[key]!!.contains(value)) {
-                        return false
-                    }
+        var match = true
+        for (key in state1.keys) {
+            if (!state2.containsKey(key)) {
+                match = false
+                break
+            }
+            for (value in state1[key]!!) {
+                if (!state2[key]!!.contains(value)) {
+                    match = false
+                    break
                 }
             }
         }
-
-        return true
+        for (key in state2.keys) {
+            if (!state1.containsKey(key)) {
+                match = false
+                break
+            }
+            for (value in state2[key]!!) {
+                if (!state1[key]!!.contains(value)) {
+                    match = false
+                    break
+                }
+            }
+        }
+        return match
     }
 
     fun computeFirst() {

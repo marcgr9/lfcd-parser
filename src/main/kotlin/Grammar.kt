@@ -29,15 +29,45 @@ class Grammar(
         terminalsInput.forEach { terminals.add(it) }
         startingSymbol = reader.nextLine()
         while (reader.hasNextLine()) {
-            val sides = reader.nextLine().split("~")
-            val left = sides[0]
-            val right = sides[1].split(" ")
-            productions.add(Production(left, right))
+            productions.add(parseProduction(reader.nextLine()))
         }
+
     }
 
     fun parseProduction(line: String): Production {
+        val splitLine = line.split("~")
+        val left = Value(splitLine[0].replace("]", "").replace("[", ""), true)
 
+        val right = mutableListOf<Value>()
+
+        val rightPart = splitLine[1]
+        var index = 0
+        var current = ""
+        while (index <= rightPart.length) {
+            if (index == rightPart.length) {
+                if (rightPart[index - 1] == ']') break
+
+                if (current.isNotEmpty()) {
+                    right.add(Value(current, true))
+                }
+            } else if (rightPart[index] == '[') {
+                if (current.isNotEmpty()) {
+                    right.add(Value(current, true))
+                }
+                current = ""
+            } else if (rightPart[index] == ']') {
+                if (current.isEmpty()) continue
+
+                right.add(Value(current, false))
+                current = ""
+            } else {
+                current += rightPart[index]
+            }
+
+            index++
+        }
+
+        return Production(left, right)
     }
 
     fun getProductionsForNonterminal(nonterminal: String): List<Production> {
@@ -56,8 +86,4 @@ class Grammar(
         }
     }
 
-    override fun toString(): String {
-        return "G =( " + nonTerminals.toString() + ", " + terminals.toString() + ", " +
-                productions.toString() + ", " + startingSymbol + " )"
-    }
 }
