@@ -15,9 +15,9 @@ class Grammar(
 
     init {
         grammarFromFile()
-        val augmentedStart = "$startingSymbol'"
-        nonTerminals.add(augmentedStart)
-        productions.add(0, Production(Value(augmentedStart, true), listOf(Value(startingSymbol, true))))
+//        val augmentedStart = "$startingSymbol'"
+//        nonTerminals.add(augmentedStart)
+//        productions.add(0, Production(Value(augmentedStart, true), listOf(Value(startingSymbol, true))))
     }
 
     private fun grammarFromFile() {
@@ -36,14 +36,14 @@ class Grammar(
         }
     }
 
+    fun parseProduction(line: String): Production {
+
+    }
+
     fun getProductionsForNonterminal(nonterminal: String): List<Production> {
-        val productionsForNonterminal = mutableListOf<Production>()
-        for (production in productions) {
-            if (production.left.value == nonterminal) {
-                productionsForNonterminal.add(production)
-            }
+        return productions.filter {
+            it.left.value == nonterminal
         }
-        return productionsForNonterminal
     }
 
     fun isNonTerminal(symbol : String) : Boolean {

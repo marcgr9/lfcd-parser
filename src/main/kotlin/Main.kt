@@ -5,6 +5,7 @@ fun main() {
     val parser = Parser(grammar)
 
     val scanner = Scanner(System.`in`)
+    val scanner2 = Scanner(System.`in`)
 
     println(menu())
     while (true) {
