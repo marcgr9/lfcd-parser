@@ -31,6 +31,7 @@ fun main() {
 
 fun menu(): String
     = """
+        0. Menu
         1. Non terminals
         2. Terminals
         3. Productions

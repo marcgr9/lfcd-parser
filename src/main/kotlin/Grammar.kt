@@ -36,6 +36,9 @@ class Grammar(
 
     fun parseProduction(line: String): Production {
         val splitLine = line.split("~")
+
+        if (splitLine[0].filter { it in listOf('[', ']') }.length > 2) throw Exception("Not CFG")
+
         val left = Value(splitLine[0].replace("]", "").replace("[", ""), true)
 
         val right = mutableListOf<Value>()
@@ -73,16 +76,6 @@ class Grammar(
     fun getProductionsForNonterminal(nonterminal: String): List<Production> {
         return productions.filter {
             it.left.value == nonterminal
-        }
-    }
-
-    fun isNonTerminal(symbol : String) : Boolean {
-        return nonTerminals.contains(symbol)
-    }
-
-    fun checkCFG(): Boolean {
-        return productions.stream().allMatch {
-            it.left.value.length == 1 && nonTerminals.contains(it.left.value)
         }
     }
 
