@@ -14,13 +14,10 @@ class Grammar(
     lateinit var startingSymbol: String
 
     init {
-        grammarFromFile()
-//        val augmentedStart = "$startingSymbol'"
-//        nonTerminals.add(augmentedStart)
-//        productions.add(0, Production(Value(augmentedStart, true), listOf(Value(startingSymbol, true))))
+        readGrammar()
     }
 
-    private fun grammarFromFile() {
+    private fun readGrammar() {
         val file = File(file)
         val reader = Scanner(file)
         val nonTerminalsInput = reader.nextLine().split(" ")
