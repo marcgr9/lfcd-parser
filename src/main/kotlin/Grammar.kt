@@ -15,6 +15,9 @@ class Grammar(
 
     init {
         readGrammar()
+        val augmentedStart = "$startingSymbol'"
+        nonTerminals.add(augmentedStart)
+        productions.add(0, Production(augmentedStart, listOf(startingSymbol), 0))
     }
 
     private fun readGrammar() {
@@ -25,13 +28,15 @@ class Grammar(
         val terminalsInput = reader.nextLine().split(" ")
         terminalsInput.forEach { terminals.add(it) }
         startingSymbol = reader.nextLine()
+        var id = 1
         while (reader.hasNextLine()) {
-            productions.add(parseProduction(reader.nextLine()))
+            productions.add(parseProduction(reader.nextLine(), id))
+            id++
         }
 
     }
 
-    fun parseProduction(line: String): Production {
+    fun parseProduction(line: String, id: Int): Production {
         val splitLine = line.split("~")
 
         if (splitLine[0].filter { it in listOf('[', ']') }.length > 2) throw Exception("Not CFG")
@@ -66,7 +71,7 @@ class Grammar(
             index++
         }
 
-        return Production(left, right)
+        return Production(left, right, id)
     }
 
     fun getProductionsForNonterminal(nonterminal: String): List<Production> {
@@ -74,5 +79,7 @@ class Grammar(
             it.left.value == nonterminal
         }
     }
+
+    fun isNonTerminal(symbol : String) =  nonTerminals.contains(symbol)
 
 }

@@ -1,8 +1,11 @@
 import java.util.Scanner
 
 fun main() {
-    val grammar = Grammar("src/main/resources/g1.txt")
+    val grammar = Grammar("src/main/resources/g3.txt")
     val parser = Parser(grammar)
+    val lr0Parser = LR0Parser(grammar)
+    lr0Parser.createCanonicalCollection()
+    lr0Parser.createTables()
 
     val scanner = Scanner(System.`in`)
 
@@ -25,6 +28,14 @@ fun main() {
                 parser.computeFollow()
                 parser.followTable.forEach(::println)
             }
+            7 -> println(lr0Parser.goToTable)
+            8 -> println(lr0Parser.actionTable)
+            9 -> println(lr0Parser.canonicalCollection)
+            10 -> {
+                print("Input: ")
+                lr0Parser.parse(scanner.next()) // aabb$
+                lr0Parser.result.forEach { println(it) }
+            }
         }
     }
 }
@@ -38,4 +49,8 @@ fun menu(): String
         4. Production for terminal
         5. First
         6. Follow
+        7. GoTo table
+        8. Action table
+        9. Canonical collection
+        10. Parse
     """.trimIndent()
